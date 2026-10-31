@@ -1,0 +1,294 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Citizen Care | Your Voice Matters{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="row align-items-center gy-5">
+
+            <div class="col-lg-6">
+
+                <span class="hero-badge">
+                    <i class="bi bi-shield-check me-2"></i>
+                    Citizen Support Platform
+                </span>
+
+                <h1 class="hero-title mt-4">
+                    Your Voice Matters.
+                    <span>We Are Here to Listen.</span>
+                </h1>
+
+                <p class="hero-description mt-4">
+                    Report issues, share your concerns and track
+                    your complaints through one simple platform.
+                    Your feedback helps create better communities.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 mt-4">
+
+                    <a href="{% url 'accounts:register' %}"
+                       class="btn btn-primary-custom btn-lg">
+                        Submit a Complaint
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+
+                    <a href="{% url 'pages:services' %}"
+                       class="btn btn-outline-primary-custom btn-lg">
+                        Explore Services
+                    </a>
+
+                </div>
+
+                <div class="hero-features mt-5">
+
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        Easy complaint submission
+                    </div>
+
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        Transparent status tracking
+                    </div>
+
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        WhatsApp assistance
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <div class="hero-visual">
+
+                    <div class="hero-illustration">
+                        <i class="bi bi-buildings"></i>
+                    </div>
+
+                    <div class="floating-card card-one">
+                        <div class="floating-icon">
+                            <i class="bi bi-chat-left-text"></i>
+                        </div>
+                        <div>
+                            <strong>Complaint Submitted</strong>
+                            <small>Reference generated</small>
+                        </div>
+                    </div>
+
+                    <div class="floating-card card-two">
+                        <div class="floating-icon success-icon">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                        <div>
+                            <strong>Status Updated</strong>
+                            <small>Stay informed</small>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="section-heading text-center">
+
+            <span class="section-label">OUR FEATURES</span>
+
+            <h2>Making Citizen Support Simpler</h2>
+
+            <p>
+                Everything you need to report and manage
+                complaints in one place.
+            </p>
+
+        </div>
+
+        <div class="row g-4 mt-4">
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-chat-square-text"></i>
+                    </div>
+
+                    <h5>Easy Reporting</h5>
+
+                    <p>
+                        Submit complaints with descriptions,
+                        locations and supporting photographs.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+
+                    <h5>Live Tracking</h5>
+
+                    <p>
+                        Track your complaint using its unique
+                        reference number.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-whatsapp"></i>
+                    </div>
+
+                    <h5>WhatsApp Support</h5>
+
+                    <p>
+                        Communicate through WhatsApp and
+                        receive complaint-related updates.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="how-section section-padding">
+
+    <div class="container">
+
+        <div class="section-heading text-center">
+
+            <span class="section-label">SIMPLE PROCESS</span>
+
+            <h2>How Citizen Care Works</h2>
+
+            <p>Three simple steps to submit your complaint.</p>
+
+        </div>
+
+        <div class="row g-4 mt-4">
+
+            <div class="col-md-4">
+
+                <div class="step-card">
+
+                    <span class="step-number">01</span>
+
+                    <i class="bi bi-person-plus step-icon"></i>
+
+                    <h5>Create Your Account</h5>
+
+                    <p>
+                        Register and provide your basic contact
+                        information.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="step-card">
+
+                    <span class="step-number">02</span>
+
+                    <i class="bi bi-file-earmark-text step-icon"></i>
+
+                    <h5>Submit Your Complaint</h5>
+
+                    <p>
+                        Describe the issue and upload supporting
+                        evidence if available.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="step-card">
+
+                    <span class="step-number">03</span>
+
+                    <i class="bi bi-clipboard-check step-icon"></i>
+
+                    <h5>Track Your Progress</h5>
+
+                    <p>
+                        Receive updates and follow the status
+                        of your complaint.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+<section class="cta-section">
+
+    <div class="container text-center">
+
+        <h2>Your Concern Deserves Attention.</h2>
+
+        <p>
+            Start today. Submit your complaint and stay updated.
+        </p>
+
+        <a href="{% url 'accounts:register' %}"
+           class="btn btn-light btn-lg mt-3">
+            Get Started
+            <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

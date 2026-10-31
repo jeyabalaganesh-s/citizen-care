@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Services | Citizen Care{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <span class="badge bg-primary-subtle text-primary mb-3">
+                Our Services
+            </span>
+
+            <h1 class="display-5 fw-bold">
+                How Citizen Care Helps You
+            </h1>
+
+            <p class="text-secondary mx-auto mt-3" style="max-width: 650px;">
+                Access complaint reporting and tracking services
+                through one simple platform.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-3">
+                    <div class="card-body">
+                        <i class="bi bi-file-earmark-plus display-5 text-primary"></i>
+                        <h4 class="fw-bold mt-3">Complaint Registration</h4>
+                        <p class="text-secondary">
+                            Submit complaints online with descriptions
+                            and supporting information.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-3">
+                    <div class="card-body">
+                        <i class="bi bi-clipboard-check display-5 text-primary"></i>
+                        <h4 class="fw-bold mt-3">Complaint Tracking</h4>
+                        <p class="text-secondary">
+                            View your complaint history and check
+                            the latest status of submitted complaints.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-3">
+                    <div class="card-body">
+                        <i class="bi bi-whatsapp display-5 text-success"></i>
+                        <h4 class="fw-bold mt-3">WhatsApp Support</h4>
+                        <p class="text-secondary">
+                            Receive complaint-related communication
+                            through WhatsApp where available.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-3">
+                    <div class="card-body">
+                        <i class="bi bi-camera display-5 text-primary"></i>
+                        <h4 class="fw-bold mt-3">Evidence Submission</h4>
+                        <p class="text-secondary">
+                            Attach relevant photographs or supporting
+                            documents to help explain an issue.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-3">
+                    <div class="card-body">
+                        <i class="bi bi-bell display-5 text-primary"></i>
+                        <h4 class="fw-bold mt-3">Notifications</h4>
+                        <p class="text-secondary">
+                            Stay informed about important complaint
+                            updates and status changes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-3">
+                    <div class="card-body">
+                        <i class="bi bi-robot display-5 text-primary"></i>
+                        <h4 class="fw-bold mt-3">AI Assistance</h4>
+                        <p class="text-secondary">
+                            Get assistance with describing and
+                            categorizing complaints.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-5">
+            <h3 class="fw-bold">Need to report an issue?</h3>
+            <p class="text-secondary">
+                Create your account to get started.
+            </p>
+
+            <a href="{% url 'accounts:register' %}"
+               class="btn btn-primary px-4 py-2">
+                Register Now
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

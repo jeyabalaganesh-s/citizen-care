@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Thaagam Foundation | Login</title>
+</head>
+
+<body>
+
+    <h1>Thaagam Foundation</h1>
+
+    <h2>Admin Login</h2>
+
+    {% if form.errors %}
+        <p style="color: red;">
+            Invalid username or password.
+        </p>
+    {% endif %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div>
+            <label>Username</label>
+            {{ form.username }}
+        </div>
+
+        <br>
+
+        <div>
+            <label>Password</label>
+            {{ form.password }}
+        </div>
+
+        <br>
+
+        <button type="submit">Login</button>
+
+    </form>
+
+</body>
+</html>
