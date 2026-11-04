@@ -1,3 +1,4 @@
+
 import uuid
 
 from django.conf import settings
@@ -30,12 +31,13 @@ class Complaint(models.Model):
     ]
 
     CATEGORY_CHOICES = [
-        ('water', 'Water'),
-        ('electricity', 'Electricity'),
-        ('road', 'Road'),
-        ('sanitation', 'Sanitation'),
-        ('health', 'Health'),
-        ('education', 'Education'),
+        ('maintenance', 'Maintenance'),
+        ('cleanliness', 'Cleanliness'),
+        ('furniture', 'Furniture'),
+        ('electrical', 'Electrical'),
+        ('plumbing', 'Plumbing'),
+        ('equipment', 'Office Equipment'),
+        ('safety', 'Safety'),
         ('other', 'Other'),
     ]
 
@@ -82,6 +84,13 @@ class Complaint(models.Model):
         max_length=20,
         choices=SOURCE_CHOICES,
         default='whatsapp'
+    )
+
+    whatsapp_message_id = models.CharField(
+        max_length=255,
+        unique=True,
+        null=True,
+        blank=True
     )
 
     assigned_to = models.ForeignKey(
@@ -135,18 +144,49 @@ class Complaint(models.Model):
 
 class ComplaintEvidence(models.Model):
 
+    VALIDATION_CHOICES = [
+        ('pending', 'Pending'),
+        ('valid', 'Valid'),
+        ('irrelevant', 'Irrelevant'),
+        ('unclear', 'Unclear'),
+    ]
+
     complaint = models.ForeignKey(
         Complaint,
         on_delete=models.CASCADE,
         related_name='evidences'
     )
 
+    # Original image field retained for compatibility.
     image = models.ImageField(
-        upload_to='complaints/evidence/%Y/%m/'
+        upload_to='complaints/evidence/%Y/%m/',
+        blank=True,
+        null=True
+    )
+
+    # Cloudinary storage details.
+    cloudinary_url = models.URLField(
+        max_length=1000,
+        blank=True
+    )
+
+    cloudinary_public_id = models.CharField(
+        max_length=255,
+        blank=True
     )
 
     description = models.CharField(
         max_length=255,
+        blank=True
+    )
+
+    validation_status = models.CharField(
+        max_length=20,
+        choices=VALIDATION_CHOICES,
+        default='pending'
+    )
+
+    validation_reason = models.TextField(
         blank=True
     )
 
@@ -155,4 +195,18 @@ class ComplaintEvidence(models.Model):
     )
 
     def __str__(self):
-        return f"{self.complaint.complaint_id} - Evidence"  
+        return f"{self.complaint.complaint_id} - Evidence"
+
+class ComplaintCategory(models.Model):
+    name = models.CharField(max_length=150, unique=True)
+    description = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Complaint Category"
+        verbose_name_plural = "Complaint Categories"
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name

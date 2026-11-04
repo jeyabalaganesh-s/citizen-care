@@ -1,0 +1,662 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dashboard | Citizen Care</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            font-family: Inter, Arial, sans-serif;
+            color: #202938;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #172033;
+            padding: 25px 14px;
+            color: white;
+            z-index: 1000;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 800;
+            padding: 10px;
+            margin-bottom: 35px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            color: #b8c2d3;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #293750;
+            color: white;
+        }
+
+        .sidebar form button {
+            font-size: 14px;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .page-title {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .page-subtitle {
+            color: #8791a2;
+            font-size: 13px;
+        }
+
+        .stat-card, .content-card {
+            background: white;
+            border: 1px solid #e9edf3;
+            border-radius: 13px;
+            padding: 20px;
+            height: 100%;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #8791a2;
+            font-weight: 500;
+        }
+
+        .stat-number {
+            font-size: 27px;
+            font-weight: 800;
+            margin-top: 8px;
+        }
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            font-size: 20px;
+        }
+
+        .icon-blue { background: #e9f1ff; color: #3976df; }
+        .icon-orange { background: #fff2df; color: #e99b27; }
+        .icon-purple { background: #f0eaff; color: #8258d8; }
+        .icon-green { background: #e2f8ed; color: #20a66a; }
+        .icon-red { background: #ffe9e9; color: #df5353; }
+        .icon-cyan { background: #e1f7fb; color: #199bb5; }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .section-link {
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .table {
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        .table th {
+            color: #8791a2;
+            font-weight: 600;
+            white-space: nowrap;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .table td {
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+
+        .badge-status {
+            padding: 6px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            height: 260px;
+            position: relative;
+        }
+
+        .activity-item {
+            padding: 13px 0;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .muted-text {
+            color: #8791a2;
+            font-size: 12px;
+        }
+
+        @media(max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="brand">
+        <i class="bi bi-buildings me-2"></i>
+        Citizen Care
+    </div>
+
+    <small class="text-secondary px-3">MAIN MENU</small>
+
+    <a href="{% url 'dashboard:home' %}"
+       class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+        <i class="bi bi-grid"></i> Dashboard
+    </a>
+
+    <a href="{% url 'dashboard:complaints' %}"
+       class="{% if request.resolver_match.url_name == 'complaints' or request.resolver_match.url_name == 'complaint_detail' or request.resolver_match.url_name == 'update_complaint' %}active{% endif %}">
+        <i class="bi bi-clipboard-check"></i> Complaints
+    </a>
+
+    <a href="{% url 'dashboard:conversations' %}"
+       class="{% if request.resolver_match.url_name == 'conversations' %}active{% endif %}">
+        <i class="bi bi-chat-dots"></i> Conversations
+    </a>
+
+    <a href="{% url 'dashboard:messages' %}"
+       class="{% if request.resolver_match.url_name == 'messages' %}active{% endif %}">
+        <i class="bi bi-envelope"></i> Messages
+    </a>
+
+    <hr class="border-secondary">
+
+    <a href="{% url 'pages:home' %}">
+        <i class="bi bi-globe"></i> Public Website
+    </a>
+
+    <form method="post" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-light w-100 mt-3">
+            <i class="bi bi-box-arrow-right me-2"></i> Logout
+        </button>
+    </form>
+
+</aside>
+
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h2 class="page-title mb-1">Dashboard Overview</h2>
+            <p class="page-subtitle mb-0">
+                Welcome back! Here's what's happening with Citizen Care.
+            </p>
+        </div>
+
+        <div class="text-secondary small">
+            <i class="bi bi-calendar3 me-1"></i>
+            {% now "d M Y" %}
+        </div>
+    </div>
+
+
+    <!-- COMPLAINT STATISTICS -->
+    <h6 class="fw-bold mb-3">Complaint Overview</h6>
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="stat-label">Total Complaints</div>
+                        <div class="stat-number">{{ total_complaints }}</div>
+                    </div>
+                    <div class="stat-icon icon-blue">
+                        <i class="bi bi-clipboard-data"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="stat-label">Pending</div>
+                        <div class="stat-number">{{ pending_complaints }}</div>
+                    </div>
+                    <div class="stat-icon icon-orange">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="stat-label">In Progress</div>
+                        <div class="stat-number">{{ in_progress_complaints }}</div>
+                    </div>
+                    <div class="stat-icon icon-purple">
+                        <i class="bi bi-arrow-repeat"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="stat-label">Resolved</div>
+                        <div class="stat-number">{{ resolved_complaints }}</div>
+                    </div>
+                    <div class="stat-icon icon-green">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- WHATSAPP STATISTICS -->
+    <h6 class="fw-bold mb-3">WhatsApp Overview</h6>
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="stat-label">Total Contacts</div>
+                        <div class="stat-number">{{ total_contacts }}</div>
+                    </div>
+                    <div class="stat-icon icon-blue">
+                        <i class="bi bi-people"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="stat-label">Conversations</div>
+                        <div class="stat-number">{{ total_conversations }}</div>
+                    </div>
+                    <div class="stat-icon icon-purple">
+                        <i class="bi bi-chat-dots"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="stat-label">Incoming Messages</div>
+                        <div class="stat-number">{{ incoming_messages }}</div>
+                    </div>
+                    <div class="stat-icon icon-cyan">
+                        <i class="bi bi-arrow-down-left"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="stat-label">Outgoing Messages</div>
+                        <div class="stat-number">{{ outgoing_messages }}</div>
+                    </div>
+                    <div class="stat-icon icon-green">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- CHARTS -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-8">
+            <div class="content-card">
+                <h6 class="section-title mb-3">Complaint Trends</h6>
+                <div class="chart-container">
+                    <canvas id="complaintChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="content-card">
+                <h6 class="section-title mb-3">Complaint Categories</h6>
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- STATUS SUMMARY -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-6">
+            <div class="content-card">
+                <h6 class="section-title mb-3">Conversation Status</h6>
+
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="muted-text">Active</span>
+                    <strong>{{ active_conversations }}</strong>
+                </div>
+
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="muted-text">Waiting</span>
+                    <strong>{{ waiting_conversations }}</strong>
+                </div>
+
+                <div class="d-flex justify-content-between py-2">
+                    <span class="muted-text">Completed</span>
+                    <strong>{{ completed_conversations }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="content-card">
+                <h6 class="section-title mb-3">Complaint Priority</h6>
+
+                {% for label in priority_labels %}
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="muted-text">{{ label }}</span>
+                    <strong>{{ priority_values|default_if_none:"" }}</strong>
+                </div>
+                {% empty %}
+                <p class="muted-text">No priority data available.</p>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- RECENT COMPLAINTS -->
+    <div class="content-card mb-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="section-title mb-0">Recent Complaints</h6>
+            <a href="{% url 'dashboard:complaints' %}" class="section-link">
+                View All <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Complaint ID</th>
+                        <th>Citizen</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for complaint in recent_complaints %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'dashboard:complaint_detail' complaint.complaint_id %}"
+                               class="fw-semibold text-decoration-none">
+                                {{ complaint.complaint_id }}
+                            </a>
+                        </td>
+                        <td>{{ complaint.citizen_name }}</td>
+                        <td>{{ complaint.get_category_display }}</td>
+                        <td>{{ complaint.get_priority_display }}</td>
+                        <td>
+                            <span class="badge bg-light text-dark badge-status">
+                                {{ complaint.get_status_display }}
+                            </span>
+                        </td>
+                        <td>{{ complaint.created_at|date:"d M Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center text-secondary py-4">
+                            No complaints registered yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+    <!-- RECENT CONVERSATIONS -->
+    <div class="content-card mb-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="section-title mb-0">Recent WhatsApp Conversations</h6>
+            <a href="{% url 'dashboard:conversations' %}" class="section-link">
+                View All <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        {% for conversation in recent_conversations %}
+        <div class="activity-item d-flex justify-content-between align-items-center gap-3">
+            <div>
+                <div class="fw-semibold small">
+                    {{ conversation.contact.name|default:conversation.contact.wa_id }}
+                </div>
+                <div class="muted-text">
+                    {{ conversation.contact.wa_id }}
+                </div>
+            </div>
+
+            <div class="text-end">
+                <span class="badge bg-light text-dark">
+                    {{ conversation.get_status_display }}
+                </span>
+                <div class="muted-text mt-1">
+                    {{ conversation.last_message_at|date:"d M, h:i A"|default:"No messages" }}
+                </div>
+            </div>
+
+            <a href="{% url 'dashboard:conversations' %}?conversation={{ conversation.id }}"
+               class="btn btn-sm btn-outline-primary">
+                Open
+            </a>
+        </div>
+        {% empty %}
+        <p class="text-secondary small mb-0">No conversations available.</p>
+        {% endfor %}
+
+    </div>
+
+
+    <!-- RECENT MESSAGES -->
+    <div class="content-card">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="section-title mb-0">Recent Messages</h6>
+            <a href="{% url 'dashboard:messages' %}" class="section-link">
+                View All <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        {% for message in recent_messages %}
+        <div class="activity-item d-flex justify-content-between align-items-center gap-3">
+
+            <div>
+                <div class="fw-semibold small">
+                    {{ message.conversation.contact.name|default:message.conversation.contact.wa_id }}
+                </div>
+                <div class="muted-text">
+                    {{ message.text|default:"Media message"|truncatechars:75 }}
+                </div>
+            </div>
+
+            <div class="text-end">
+                <span class="badge {% if message.direction == 'incoming' %}bg-primary{% else %}bg-success{% endif %}">
+                    {{ message.get_direction_display }}
+                </span>
+                <div class="muted-text mt-1">
+                    {{ message.timestamp|date:"d M, h:i A"|default:"-" }}
+                </div>
+            </div>
+
+        </div>
+        {% empty %}
+        <p class="text-secondary small mb-0">No messages available.</p>
+        {% endfor %}
+
+    </div>
+
+</main>
+
+
+<!-- CHART DATA -->
+{{ chart_labels|json_script:"chart-labels" }}
+{{ chart_values|json_script:"chart-values" }}
+{{ category_labels|json_script:"category-labels" }}
+{{ category_values|json_script:"category-values" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const chartLabels = JSON.parse(
+        document.getElementById("chart-labels").textContent
+    );
+
+    const chartValues = JSON.parse(
+        document.getElementById("chart-values").textContent
+    );
+
+    const categoryLabels = JSON.parse(
+        document.getElementById("category-labels").textContent
+    );
+
+    const categoryValues = JSON.parse(
+        document.getElementById("category-values").textContent
+    );
+
+    new Chart(document.getElementById("complaintChart"), {
+        type: "line",
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                label: "Complaints",
+                data: chartValues,
+                borderColor: "#3976df",
+                backgroundColor: "rgba(57,118,223,0.10)",
+                fill: true,
+                tension: 0.4,
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { precision: 0 }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById("categoryChart"), {
+        type: "doughnut",
+        data: {
+            labels: categoryLabels,
+            datasets: [{
+                data: categoryValues,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "bottom"
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

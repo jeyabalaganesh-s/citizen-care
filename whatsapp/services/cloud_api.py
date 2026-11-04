@@ -42,3 +42,57 @@ def send_text_message(to, message):
     response.raise_for_status()
 
     return response.json()
+
+
+
+def send_interactive_list(to, body_text, button_text, section_title, rows):
+
+    phone_number_id = settings.WHATSAPP_PHONE_NUMBER_ID
+    access_token = settings.WHATSAPP_ACCESS_TOKEN
+    api_version = settings.WHATSAPP_API_VERSION
+
+    if not phone_number_id or not access_token:
+        raise ValueError("WhatsApp credentials are missing.")
+
+    url = (
+        f"https://graph.facebook.com/"
+        f"{api_version}/{phone_number_id}/messages"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+
+    payload = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": to,
+        "type": "interactive",
+        "interactive": {
+            "type": "list",
+            "body": {
+                "text": body_text
+            },
+            "action": {
+                "button": button_text,
+                "sections": [
+                    {
+                        "title": section_title,
+                        "rows": rows
+                    }
+                ]
+            }
+        }
+    }
+
+    response = requests.post(
+        url,
+        headers=headers,
+        json=payload,
+        timeout=20,
+    )
+
+    response.raise_for_status()
+
+    return response.json()

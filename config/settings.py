@@ -15,6 +15,10 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -62,7 +66,7 @@ INSTALLED_APPS = [
 
 LOGIN_URL = '/accounts/login/'
 
-LOGIN_REDIRECT_URL = '/complaints/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 
@@ -199,3 +203,17 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
+
+cloudinary.config(
+    cloud_name=CLOUDINARY_STORAGE["CLOUD_NAME"],
+    api_key=CLOUDINARY_STORAGE["API_KEY"],
+    api_secret=CLOUDINARY_STORAGE["API_SECRET"],
+    secure=True,
+)

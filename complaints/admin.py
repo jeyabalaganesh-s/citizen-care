@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Complaint, ComplaintEvidence
+from .models import Complaint, ComplaintEvidence, ComplaintCategory
 
 
 class ComplaintEvidenceInline(admin.TabularInline):
@@ -55,3 +55,12 @@ class ComplaintEvidenceAdmin(admin.ModelAdmin):
         'description',
         'uploaded_at',
     )
+
+
+@admin.register(ComplaintCategory)
+class ComplaintCategoryAdmin(admin.ModelAdmin):
+    list_display = ("name", "is_active", "created_at")
+    list_filter = ("is_active",)
+    search_fields = ("name",)
+    list_editable = ("is_active",)
+    ordering = ("name",)
